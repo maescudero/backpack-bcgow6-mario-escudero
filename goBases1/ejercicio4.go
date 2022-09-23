@@ -1,7 +1,10 @@
 package main
 
+import "fmt"
+
 func main() {
 
+	fmt.Print("hello world")
 	//var apellido string = "Gomez"
 	// var edad int = 35  -- sacarle las comillas
 	// isTrue := false --- sacarle las comillas y cambiar la nombre de variable para no confundir
