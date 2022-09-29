@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 type usuario struct {
 	Nombre    string
 	Apellido  string
@@ -20,5 +22,5 @@ func (p *producto) nuevoProducto(nombre string, apellido string, cantidad int) {
 }
 
 func main() {
-
+	fmt.Println("hello")
 }
