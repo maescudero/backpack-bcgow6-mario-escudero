@@ -1,5 +1,7 @@
 package main
 
+import "fmt"
+
 /*Ejercicio 4 - Envios
 
 Un Ecommerce necesita realizar una funcionalidad en Go para gestionar el envío y reparto de productos:
@@ -30,15 +32,54 @@ const (
 	Especial = "especial"
 )
 
-type prod struct {
-	tamanio    int64
+type Ecommerce interface {
+	AgregarProducto(prod Producto)
+	CalcularEnvio() (float64, error)
+}
+
+type Producto struct {
+	tamanio    string
 	tamanioCm3 float64
 }
 
-type flete struct {
-	productos prod
+type Flete struct {
+	productos Producto
+}
+
+func New() Ecommerce {
+	return &Flete{}
+}
+
+func (f *Flete) AgregarProducto(prod Producto) {
+	f.productos = prod
+}
+
+func (f Flete) CalcularEnvio() (float64, error) {
+	switch f.productos.tamanio {
+	case Chico:
+		tamanioProducto := f.productos.tamanioCm3 * 7.5
+		return tamanioProducto, nil
+	default:
+		return 0, nil
+	}
+
+	return 0, nil
+
 }
 
 func main() {
+	flete := New()
+	producto := Producto{
+		tamanio:    Chico,
+		tamanioCm3: 200000,
+	}
 
+	flete.AgregarProducto(producto)
+	calculo, err := flete.CalcularEnvio()
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+
+	fmt.Println("Calculo de envío", calculo)
 }
