@@ -77,7 +77,7 @@ func registo() gin.HandlerFunc {
 			})
 			return
 		}
-		comprobar := req.checkFilters(ctx)
+		comprobar := req.check(ctx)
 
 		if comprobar {
 			Id++
@@ -90,24 +90,24 @@ func registo() gin.HandlerFunc {
 
 }
 
-func (p Product) checkFilters(ctx *gin.Context) bool {
+func (p Product) check(ctx *gin.Context) bool {
 	if p.Nombre == "" {
-		respuesta := fmt.Sprintf("el campo %s es requerido”", p.Nombre)
+		respuesta := fmt.Sprintf("el ingreso %s no es valido", p.Nombre)
 		ctx.JSON(http.StatusBadRequest, respuesta)
 		return false
 	}
 	if p.Color == "" {
-		respuesta := fmt.Sprintf("el campo %s es requerido”", p.Color)
+		respuesta := fmt.Sprintf("el ingreso %s no es valido", p.Color)
 		ctx.JSON(http.StatusBadRequest, respuesta)
 		return false
 	}
 	if p.Precio < 0 {
-		respuesta := fmt.Sprintf("el campo %f es requerido”", p.Precio)
+		respuesta := fmt.Sprintf("el ingreso %f no es valido", p.Precio)
 		ctx.JSON(http.StatusBadRequest, respuesta)
 		return false
 	}
 	if p.Stock < 0 {
-		respuesta := fmt.Sprintf("el campo %v es requerido”", p.Stock)
+		respuesta := fmt.Sprintf("el ingreso %v no es valido", p.Stock)
 		ctx.JSON(http.StatusBadRequest, respuesta)
 		return false
 	}
