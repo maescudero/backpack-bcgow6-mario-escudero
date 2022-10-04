@@ -2,6 +2,8 @@ package main
 
 import (
 	"github.com/gin-gonic/gin"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb2/Tarde/cmd/server/handler"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb2/Tarde/internal/products"
 )
 
 func main() {

@@ -4,6 +4,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb2/Tarde/internal/products"
 )
 
 type request struct {
