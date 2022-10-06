@@ -5,7 +5,7 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/Mañana/internal/products"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/Tarde/internal/products"
 )
 
 type ProductRequest struct {

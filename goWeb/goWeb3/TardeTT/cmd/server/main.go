@@ -4,8 +4,8 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/cmd/server/handler"
-	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/internal/pkg/store"
 	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/internal/products"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/pkg/store"
 )
 
 func main() {

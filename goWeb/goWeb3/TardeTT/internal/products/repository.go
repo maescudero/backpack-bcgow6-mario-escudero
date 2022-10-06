@@ -3,7 +3,7 @@ package products
 import (
 	"fmt"
 
-	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/internal/pkg/store"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/pkg/store"
 )
 
 type Product struct {

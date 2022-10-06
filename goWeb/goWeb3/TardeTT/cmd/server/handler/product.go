@@ -6,6 +6,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/internal/products"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/TardeTT/pkg/web"
 )
 
 type request struct {
@@ -29,20 +30,22 @@ func (c *Product) GetAll() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
 		if token != os.Getenv("TOKEN") {
-			ctx.JSON(401, gin.H{
-				"error": "token inválido",
-			})
+			ctx.JSON(401, web.NewResponse(401, nil, "token invalido"))
 			return
 		}
 
 		p, err := c.service.GetAll()
 		if err != nil {
-			ctx.JSON(404, gin.H{
-				"error": err.Error(),
-			})
+			ctx.JSON(401, web.NewResponse(500, nil, err.Error()))
 			return
 		}
-		ctx.JSON(200, p)
+
+		if len(p) == 0 {
+			ctx.JSON(401, web.NewResponse(404, nil, "no hay productos"))
+			return
+		}
+
+		ctx.JSON(200, web.NewResponse(200, p, ""))
 	}
 }
 
@@ -50,22 +53,39 @@ func (c *Product) Store() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.Request.Header.Get("token")
 		if token != os.Getenv("TOKEN") {
-			ctx.JSON(401, gin.H{"error": "token inválido"})
+			ctx.JSON(401, web.NewResponse(401, nil, "token invalido"))
 			return
 		}
+
 		var req request
 		if err := ctx.Bind(&req); err != nil {
-			ctx.JSON(404, gin.H{
-				"error": err.Error(),
-			})
+			ctx.JSON(400, web.NewResponse(401, nil, err.Error()))
 			return
 		}
+
+		if req.Name == "" {
+			ctx.JSON(400, web.NewResponse(401, nil, "el nombre del prod es requerido"))
+			return
+		}
+		if req.Type == "" {
+			ctx.JSON(400, web.NewResponse(401, nil, "el tipo del prod es requerido"))
+			return
+		}
+		if req.Count == 0 {
+			ctx.JSON(400, web.NewResponse(401, nil, "la cantidad del prod es requerido"))
+			return
+		}
+		if req.Price == 0 {
+			ctx.JSON(400, web.NewResponse(401, nil, "el precio del prod es requerido"))
+			return
+		}
+
 		p, err := c.service.Store(req.Name, req.Type, req.Count, req.Price)
 		if err != nil {
-			ctx.JSON(404, gin.H{"error": err.Error()})
+			ctx.JSON(400, web.NewResponse(401, nil, err.Error()))
 			return
 		}
-		ctx.JSON(200, p)
+		ctx.JSON(200, web.NewResponse(200, p, ""))
 	}
 }
 
@@ -73,40 +93,41 @@ func (c *Product) Update() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		token := ctx.GetHeader("token")
 		if token != os.Getenv("TOKEN") {
-			ctx.JSON(401, gin.H{"error": "token inválido"})
+			ctx.JSON(401, web.NewResponse(401, nil, "token invalido"))
 			return
 		}
 		id, err := strconv.ParseInt(ctx.Param("id"), 10, 64)
 		if err != nil {
-			ctx.JSON(400, gin.H{"error": "invalid ID"})
+			ctx.JSON(401, web.NewResponse(400, nil, "ID invalido"))
+			//ctx.JSON(400, gin.H{"error": "invalid ID"})
 			return
 		}
 		var req request
 		if err := ctx.ShouldBindJSON(&req); err != nil {
-			ctx.JSON(400, gin.H{"error": err.Error()})
+			ctx.JSON(401, web.NewResponse(401, nil, err.Error()))
 			return
 		}
 		if req.Name == "" {
-			ctx.JSON(400, gin.H{"error": "El nombre del producto es requerido"})
+			ctx.JSON(400, web.NewResponse(401, nil, "el nombre del prod es requerido"))
 			return
 		}
 		if req.Type == "" {
-			ctx.JSON(400, gin.H{"error": "El tipo del producto es requerido"})
+			ctx.JSON(400, web.NewResponse(401, nil, "el tipo del prod es requerido"))
 			return
 		}
 		if req.Count == 0 {
-			ctx.JSON(400, gin.H{"error": "La cantidad es requerida"})
+			ctx.JSON(400, web.NewResponse(401, nil, "la cantidad del prod es requerido"))
 			return
 		}
 		if req.Price == 0 {
-			ctx.JSON(400, gin.H{"error": "El precio es requerido"})
+			ctx.JSON(400, web.NewResponse(401, nil, "el precio del prod es requerido"))
 			return
 		}
 		p, err := c.service.Update(int(id), req.Name, req.Type, req.Count, req.Price)
 		if err != nil {
-			ctx.JSON(404, gin.H{"error": err.Error()})
+			ctx.JSON(400, web.NewResponse(401, nil, err.Error()))
 			return
 		}
-		ctx.JSON(200, p)
+		ctx.JSON(200, web.NewResponse(200, p, ""))
 	}
 }

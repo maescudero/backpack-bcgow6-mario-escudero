@@ -1,7 +1,7 @@
 package products
 
 import (
-	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/Mañana/internal/domains"
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/goWeb/goWeb3/Tarde/internal/domains"
 )
 
 type Service interface {
