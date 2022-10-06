@@ -35,8 +35,6 @@ deben seguir los siguientes pasos::
 2. Se debe validar ese token en nuestro código (el token puede estar hardcodeado).
 3. En caso que el token enviado no sea correcto debemos retornar un error 401 y un
 mensaje que “no tiene permisos para realizar la petición solicitada”.
-
-
 */
 
 type Product struct {
