@@ -14,45 +14,10 @@
     "precio": 2000
   },
   {
-    "id": 1,
+    "id": 3,
     "nombre": "Playadito",
     "tipo": "7575",
     "cantidad": 6,
     "precio": 1000
-  },
-  {
-    "id": 1,
-    "nombre": "Mouse",
-    "tipo": "7287828727",
-    "cantidad": 26,
-    "precio": 2
-  },
-  {
-    "id": 1,
-    "nombre": "celular",
-    "tipo": "personal",
-    "cantidad": 15,
-    "precio": 12000
-  },
-  {
-    "id": 1,
-    "nombre": "celular",
-    "tipo": "personal",
-    "cantidad": 15,
-    "precio": 1200
-  },
-  {
-    "id": 1,
-    "nombre": "celular",
-    "tipo": "personal",
-    "cantidad": 15,
-    "precio": 1200
-  },
-  {
-    "id": 1,
-    "nombre": "celular",
-    "tipo": "personal",
-    "cantidad": 15,
-    "precio": 1200
   }
 ]

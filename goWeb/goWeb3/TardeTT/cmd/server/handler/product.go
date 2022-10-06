@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"net/http"
 	"os"
 	"strconv"
 
@@ -125,9 +126,38 @@ func (c *Product) Update() gin.HandlerFunc {
 		}
 		p, err := c.service.Update(int(id), req.Name, req.Type, req.Count, req.Price)
 		if err != nil {
-			ctx.JSON(400, web.NewResponse(401, nil, err.Error()))
+			ctx.JSON(400, web.NewResponse(401, nil, "algo"))
 			return
 		}
 		ctx.JSON(200, web.NewResponse(200, p, ""))
+	}
+}
+
+func (p *Product) UpdateNameAndType() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		token := c.GetHeader("token")
+		if token != os.Getenv("TOKEN") {
+			c.JSON(401, web.NewResponse(401, nil, "token invalido"))
+			return
+		}
+		id, err := strconv.ParseInt(c.Param("id"), 10, 64)
+		if err != nil {
+			c.JSON(401, web.NewResponse(400, nil, "ID invalido"))
+			//ctx.JSON(400, gin.H{"error": "invalid ID"})
+			return
+		}
+		var req request
+		if err := c.ShouldBindJSON(&req); err != nil {
+			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+			return
+		}
+
+		p, err := p.service.UpdateNameAndType(int(id), req.Name, req.Type)
+		if err != nil {
+			c.JSON(http.StatusNotFound, gin.H{"error": err.Error()})
+			return
+		}
+
+		c.JSON(http.StatusOK, p)
 	}
 }

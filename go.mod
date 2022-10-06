@@ -4,6 +4,8 @@ go 1.19
 
 require github.com/bootcamp-go/hackaton-go-bases v0.0.0-20220704202036-a725de31b88f
 
+require github.com/joho/godotenv v1.4.0 // indirect
+
 require (
 	github.com/gin-contrib/sse v0.1.0 // indirect
 	github.com/gin-gonic/gin v1.8.1 // indirect

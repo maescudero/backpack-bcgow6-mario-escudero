@@ -23,5 +23,6 @@ func main() {
 	pr.POST("/", p.Store())
 	pr.GET("/", p.GetAll())
 	pr.PUT("/:id", p.Update())
+
 	r.Run()
 }
