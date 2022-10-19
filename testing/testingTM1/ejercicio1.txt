@@ -1,0 +1,23 @@
+1) las principales diferencias entre caja blanca y caja negra es
+que la caja negra desconoce el funcionamiento interno, sino tiene en 
+cuenta las  el codigo fuente, se centra principalmente a nivel software y 
+observar como se comporta un metodo o funcion,etc.
+
+2) Un test funcional de un software de acuerdo a la perspectiva, se basan 
+en entradas y salidas de un software para observar las respuestas que dan 
+el mismo ante la ejecucion de cada escenario, para sugerir diferentes 
+ajustes o modficaciones.
+
+3) Son test que buscan probar como funciona el software como un todo, de 
+tal forma que pueda observar como se comunican las capas y modulos del 
+sistema para ver determinar si se lleva a cabo el flujo de forma correcta.
+
+4) Los principios de calidad en MELI son:
+-Funcionalidad(funcionality).
+-Rendimiento(Performance).
+-Fiabilidad(Reliability).
+-Seguridad(Security).
+-Mantenibilidad(Maintainability).
+ 
+
+
