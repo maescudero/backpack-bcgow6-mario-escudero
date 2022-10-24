@@ -1,11 +1,10 @@
 package products
 
-import "github.com/maescudero/backpack-bcgow6-mario-escudero/testing/testing2TM/TardeTT/internal/domains"
-
 type MockStorage struct {
-	dataMock   []domains.Product
+	dataMock   []Product
 	errOnWrite error
 	errOnRead  error
+	called     bool
 }
 
 func (m *MockStorage) Read(data interface{}) (err error) {
@@ -13,7 +12,7 @@ func (m *MockStorage) Read(data interface{}) (err error) {
 		return m.errOnRead
 	}
 
-	castedData := data.(*[]domains.Product)
+	castedData := data.(*[]Product)
 	*castedData = m.dataMock
 	return nil
 }
@@ -23,7 +22,8 @@ func (m *MockStorage) Write(data interface{}) (err error) {
 		return m.errOnWrite
 	}
 
-	castedData := data.(*domains.Product)
-	m.dataMock = append(m.dataMock, *castedData)
+	castedData := data.([]Product)
+	m.dataMock = castedData
+	//m.dataMock = append(m.dataMock, *castedData)
 	return nil
 }
