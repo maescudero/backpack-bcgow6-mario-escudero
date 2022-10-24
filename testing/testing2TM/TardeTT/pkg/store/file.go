@@ -8,6 +8,22 @@ import (
 type Store interface {
 	Read(data interface{}) error
 	Write(data interface{}) error
+	//AddMock(mock *Mock)
+	//ClearMock()
+}
+
+/*func (f *FileStore) AddMock(mock *Mock) {
+	f.Mock = mock
+}
+
+func (f *FileStore) ClearMock() {
+	f.Mock = nil
+} */
+
+type Mock struct {
+	Data        []byte
+	Error       error
+	ReadInvoked bool
 }
 
 type Type string //Un alias..
@@ -17,31 +33,44 @@ const (
 	MongoType Type = "mongo" //Ejemplo
 )
 
-func New(store Type, fileName string) Store {
-	switch store {
-	case FileType:
-		return &fileStore{fileName}
+type FileStore struct {
+	FileName string
+	Mock     *Mock
+}
+
+func NewFileStore(fileName string) Store {
+	return &FileStore{FileName: fileName}
+}
+
+func (f *FileStore) Read(data interface{}) error {
+	if f.Mock != nil {
+		if f.Mock.Error != nil {
+			return f.Mock.Error
+		}
+
+		f.Mock.ReadInvoked = true
+		return json.Unmarshal(f.Mock.Data, &data)
 	}
-
-	return nil
-}
-
-type fileStore struct {
-	FilePath string
-}
-
-func (fs *fileStore) Write(data interface{}) error {
-	fileData, err := json.MarshalIndent(data, "", "  ")
+	fileData, err := os.ReadFile(f.FileName)
 	if err != nil {
 		return err
 	}
-	return os.WriteFile(fs.FilePath, fileData, 0644)
+
+	return json.Unmarshal(fileData, &data)
 }
 
-func (fs *fileStore) Read(data interface{}) error {
-	file, err := os.ReadFile(fs.FilePath)
+func (f *FileStore) Write(data interface{}) error {
+	if f.Mock != nil {
+		if f.Mock.Error != nil {
+			return nil
+		}
+
+		return nil
+	}
+	dataFile, err := json.MarshalIndent(data, "", " ")
 	if err != nil {
 		return err
 	}
-	return json.Unmarshal(file, &data)
+
+	return os.WriteFile(f.FileName, dataFile, 0644)
 }

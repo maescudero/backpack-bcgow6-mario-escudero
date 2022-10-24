@@ -15,7 +15,8 @@ type Product struct {
 }
 
 var ps []Product
-var lastID int
+
+//var lastID int
 
 // ***Importado**//
 type Repository interface {
@@ -78,38 +79,68 @@ func (r *repository) LastID() (int, error) {
 	return ps[len(ps)-1].ID, nil
 }
 
-func (r *repository) Update(id int, name, productType string, count int, price float64) (Product, error) {
-	p := Product{Name: name, Type: productType, Count: count, Price: price}
-	updated := false
-	for i := range ps {
-		if ps[i].ID == id {
-			p.ID = id
-			ps[i] = p
-			updated = true
-		}
+func (r *repository) Update(id int, name, productType string, count int, price float64) (result Product, err error) {
+	var products []Product
+	r.db.Read(&products)
+
+	p, i := findEntityByID(id, products)
+	if p.ID == 0 {
+		err = fmt.Errorf("no fue posible encontrar el producto con id %d", id)
+		return
 	}
-	if !updated {
-		return Product{}, fmt.Errorf("Producto %d no encontrado", id)
+
+	if p.ID == 0 {
+		err = fmt.Errorf("no fue posible encontrar el producto con id %d", id)
+		return
 	}
-	return p, nil
+
+	result = Product{ID: id, Name: name, Type: productType, Count: count, Price: price}
+
+	products[i] = result
+
+	if err := r.db.Write(products); err != nil {
+		return Product{}, err
+	}
+
+	return
 }
 
-func (r *repository) UpdateNameAndType(id int, nombre string, tipo string) (Product, error) {
-	var updated bool
-	p := Product{Name: nombre, Type: tipo}
-	for i := range ps {
-		if ps[i].ID == id {
-			ps[i].Name = nombre
-			ps[i].Type = tipo
-			p = ps[i]
-			updated = true
+func findEntityByID(id int, products []Product) (p Product, index int) {
+
+	for i, pr := range products {
+		if pr.ID == id {
+			p = pr
+			index = i
+			break
 		}
 	}
 
-	if !updated {
-		return Product{}, fmt.Errorf("Producto %d no encontrado", id)
+	return
+}
+
+func (r *repository) UpdateNameAndType(id int, nombre string, tipo string) (result Product, err error) {
+	var products []Product
+	r.db.Read(&products)
+
+	p, i := findEntityByID(id, products)
+
+	if p.ID == 0 {
+		err = fmt.Errorf("no fue posible encontrar el producto con id %d", id)
+		return
 	}
-	return p, nil
+
+	p.Name = nombre
+	p.Type = tipo
+
+	products[i] = p
+
+	result = p
+
+	if err := r.db.Write(products); err != nil {
+		return Product{}, err
+	}
+
+	return
 }
 
 func (r *repository) Delete(id int) error {

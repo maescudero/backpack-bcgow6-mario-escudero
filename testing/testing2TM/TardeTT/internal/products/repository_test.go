@@ -1,41 +1,46 @@
 package products
 
 import (
+	"encoding/json"
 	"testing"
 
+	"github.com/maescudero/backpack-bcgow6-mario-escudero/testing/testing2TM/TardeTT/pkg/store"
 	"github.com/stretchr/testify/assert"
 )
 
 type StubStore struct {
 }
 
-func (s StubStore) Read(data interface{}) error {
-	products := data.(*[]Product)
-	stubData := []Product{
-		{ID: 1,
-			Name:  "joysticj",
-			Type:  "HD",
-			Count: 123,
-			Price: 12321,
-		},
-		{ID: 2,
-			Name:  "joy",
-			Type:  "HDD",
-			Count: 123123,
-			Price: 123},
+func TestUpdateName(t *testing.T) {
+	id, nombre, tipo := 1, "Update After", "nuevo"
+	products := []*Product{{
+		ID:    1,
+		Name:  "algo",
+		Type:  "galleta",
+		Count: 123,
+		Price: 12}}
+
+	data, _ := json.Marshal(products)
+	mock := store.Mock{Data: data}
+
+	stubStore := store.FileStore{
+		FileName: "",
+		Mock:     &mock,
 	}
-	*products = stubData
-	return nil
+
+	r := NewRepository(&stubStore)
+	productUpdated, err := r.UpdateNameAndType(id, nombre, tipo)
+	assert.Nil(t, err)
+
+	assert.True(t, mock.ReadInvoked)
+	assert.Equal(t, id, productUpdated.ID, productUpdated.Type)
+	assert.Equal(t, nombre, productUpdated.Name, productUpdated.Type)
 }
 
-func (s StubStore) Write(data interface{}) error {
-	return nil
-}
-
-func TestFindByName(t *testing.T) {
+/*func TestFindByName(t *testing.T) {
 	//arrange
-	myStubStore := StubStore{}
-	repo := NewRepository(myStubStore)
+	sut := StubStore{}
+	r := NewRepository(&stubStore)
 	dataEsperada := []Product{
 		{
 			ID:    1,
@@ -55,4 +60,4 @@ func TestFindByName(t *testing.T) {
 	resultado, _ := repo.GetAll()
 	//assert
 	assert.Equal(t, dataEsperada, resultado)
-}
+} */

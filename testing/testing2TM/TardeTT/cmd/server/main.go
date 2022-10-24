@@ -30,7 +30,7 @@ func main() {
 
 	_ = godotenv.Load()
 
-	db := store.New(store.FileType, "./products.json")
+	db := store.NewFileStore("./products.json")
 	repo := products.NewRepository(db)
 	service := products.NewService(repo)
 	p := handler.NewProduct(service)
@@ -43,8 +43,13 @@ func main() {
 	pr := r.Group("/products")
 	pr.POST("/", p.Store())
 	pr.GET("/", p.GetAll())
+	//pr.DELETE("/:id",p)
 	pr.PUT("/:id", p.Update())
 	pr.PATCH("/:id", p.UpdateNameAndType())
 
-	r.Run()
+	err := r.Run()
+
+	if err != nil {
+		return
+	}
 }
