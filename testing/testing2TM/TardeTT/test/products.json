@@ -1,0 +1,51 @@
+[
+ {
+  "id": 1,
+  "nombre": "Televisor LCD",
+  "tipo": "electrodomesticos",
+  "cantidad": 5,
+  "precio": 20000
+ },
+ {
+  "id": 2,
+  "nombre": "Tev",
+  "tipo": "electrodomesticos",
+  "cantidad": 5,
+  "precio": 20000
+ },
+ {
+  "id": 3,
+  "nombre": "Playadito",
+  "tipo": "7575",
+  "cantidad": 6,
+  "precio": 1000
+ },
+ {
+  "id": 1,
+  "nombre": "Televisor LCD",
+  "tipo": "electrodomesticos",
+  "cantidad": 5,
+  "precio": 20000
+ },
+ {
+  "id": 1,
+  "nombre": "Televisor LCD",
+  "tipo": "electrodomesticos",
+  "cantidad": 5,
+  "precio": 20000
+ },
+ {
+  "id": 1,
+  "nombre": "Televisor LCD",
+  "tipo": "electrodomesticos",
+  "cantidad": 5,
+  "precio": 20000
+ },
+ {
+  "id": 1,
+  "nombre": "Televisor LCD",
+  "tipo": "electrodomesticos",
+  "cantidad": 5,
+  "precio": 20000
+ }
+]
