@@ -143,20 +143,21 @@ func (r *repository) UpdateNameAndType(id int, nombre string, tipo string) (resu
 	return
 }
 
-func (r *repository) Delete(id int) error {
-	var deleted bool
-	var pos int
-	for i := range ps {
-		if ps[i].ID == id {
-			pos = i
-			deleted = true
-		}
+func (r *repository) Delete(id int) (err error) {
+	var products []Product
+	r.db.Read(&products)
+
+	p, i := findEntityByID(id, products)
+
+	if p.ID == 0 {
+		err = fmt.Errorf("no fue posible encontrar el producto con id %d", id)
+		return
+	}
+	products = append(products[:i], products[i+1:]...)
+
+	if err := r.db.Write(products); err != nil {
+		return err
 	}
 
-	if !deleted {
-		return fmt.Errorf("product id %d not exists", id)
-	}
-
-	ps = append(ps[:pos], ps[pos+1:]...)
-	return nil
+	return
 }

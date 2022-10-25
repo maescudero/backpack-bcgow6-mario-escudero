@@ -29,8 +29,7 @@ type Mock struct {
 type Type string //Un alias..
 
 const (
-	FileType  Type = "file"
-	MongoType Type = "mongo" //Ejemplo
+	FileType Type = "file"
 )
 
 type FileStore struct {

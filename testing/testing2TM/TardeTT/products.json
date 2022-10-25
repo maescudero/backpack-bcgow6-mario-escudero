@@ -8,10 +8,10 @@
  },
  {
   "id": 2,
-  "nombre": "lapizera nueva",
-  "tipo": "home nueva",
-  "cantidad": 12,
-  "precio": 2000
+  "nombre": "Tev",
+  "tipo": "electrodomesticos",
+  "cantidad": 5,
+  "precio": 20000
  },
  {
   "id": 3,
@@ -19,12 +19,5 @@
   "tipo": "7575",
   "cantidad": 6,
   "precio": 1000
- },
- {
-  "id": 1,
-  "nombre": "nuevo",
-  "tipo": "nuevo",
-  "cantidad": 150,
-  "precio": 120012
  }
 ]

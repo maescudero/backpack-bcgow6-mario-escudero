@@ -188,3 +188,32 @@ func (p *Product) UpdateNameAndType() gin.HandlerFunc {
 		c.JSON(http.StatusOK, p)
 	}
 }
+
+func (p *Product) Delete() gin.HandlerFunc {
+	return func(c *gin.Context) {
+
+		token := c.GetHeader("token")
+
+		if token != os.Getenv("TOKEN") {
+			c.JSON(401, web.NewResponse(401, nil, "token invalido"))
+			return
+		}
+
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			c.JSON(401, web.NewResponse(400, nil, "ID invalido"))
+			//ctx.JSON(400, gin.H{"error": "invalid ID"})
+			return
+		}
+
+		deleted := p.service.Delete(id)
+
+		if deleted != nil {
+			c.JSON(http.StatusNotFound, web.NewResponse(404, nil, deleted.Error()))
+			return
+		}
+
+		c.JSON(http.StatusNoContent, "Deleted")
+
+	}
+}

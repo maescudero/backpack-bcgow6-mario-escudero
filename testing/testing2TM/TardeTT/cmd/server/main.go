@@ -43,7 +43,7 @@ func main() {
 	pr := r.Group("/products")
 	pr.POST("/", p.Store())
 	pr.GET("/", p.GetAll())
-	//pr.DELETE("/:id",p)
+	pr.DELETE("/:id", p.Delete())
 	pr.PUT("/:id", p.Update())
 	pr.PATCH("/:id", p.UpdateNameAndType())
 
