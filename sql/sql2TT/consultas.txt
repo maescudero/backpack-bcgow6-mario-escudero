@@ -1,0 +1,4 @@
+ SELECT  m.title, g.name
+ FROM movies_db.movies m
+INNER JOIN movies_db.genres g
+ON movies_db.m.id = movies_db.g.id;
